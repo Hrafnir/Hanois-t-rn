@@ -1,123 +1,57 @@
-<!DOCTYPE html>
-<html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanois Tårn - Interaktiv Læring</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <header>
-        <h1>Hanois Tårn</h1>
-        <p>Flytt tårnet fra start-pinnen (venstre) til mål-pinnen (høyre).</p>
-    </header>
-
-    <main class="app-container">
-        <section class="controls">
-            <h2>Innstillinger & Info</h2>
-            <div class="control-group">
-                <label for="disk-count">Antall skiver:</label>
-                <select id="disk-count">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <p>Antall trekk: <span id="move-count">0</span></p>
-                <p>Minimum trekk: <span id="min-moves">?</span></p>
-            </div>
-             <button id="reset-button">Start på nytt</button>
-             <div id="win-message" class="win-message" style="display: none;">
-                 🎉 Gratulerer! Du klarte det! 🎉
-             </div>
-        </section>
-
-        <section class="game-area">
-            <div class="tower" id="tower-0">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-            <div class="tower" id="tower-1">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-            <div class="tower" id="tower-2">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-        </section>
-
+        <!-- Erstatt hele <section class="learning-zone"> med dette: -->
         <section class="learning-zone">
             <h2>Oppdag Formelen! 🧠</h2>
             <p>Hanois tårn er mer enn et spill; det er et matematisk puslespill! La oss undersøke hvor mange trekk som *minimum* kreves.</p>
             <ol>
-                <li>Prøv å løse tårnet med <strong>3 skiver</strong>. Hva er det minste antallet trekk du brukte? <br><em>(Hint: Svaret vises over som "Minimum trekk" når du velger 3 skiver).</em></li>
-                <li>Still inn på <strong>4 skiver</strong>. Hva er minimum antall trekk nå?</li>
+                <li>Prøv å løse tårnet med <strong>3 skiver</strong>. Hva er det minste antallet trekk du brukte? <br><em>(Hint: Svaret vises over som "Minimum trekk" når du velger 3 skiver). Noter det ned!</em></li>
+                <li>Still inn på <strong>4 skiver</strong>. Hva er minimum antall trekk nå? Noter det også.</li>
                 <li>Ser du et mønster? La oss tenke:
                     <ul>
-                        <li>For å flytte <strong>1</strong> skive, trenger du ... trekk.</li>
+                        <li>For å flytte <strong>1</strong> skive, trenger du M(1) = <strong>1</strong> trekk.</li>
                         <li>For å flytte <strong>2</strong> skiver (fra A til C):
                             <ol type="a">
-                                <li>Flytt den øverste skiven (1) fra A til B (... trekk).</li>
-                                <li>Flytt den nederste skiven (2) fra A til C (... trekk).</li>
-                                <li>Flytt den øverste skiven (1) fra B til C (... trekk).</li>
-                                <li>Totalt: ... trekk.</li>
+                                <li>Flytt skive 1 (A til B): 1 trekk (som M(1)).</li>
+                                <li>Flytt skive 2 (A til C): 1 trekk.</li>
+                                <li>Flytt skive 1 (B til C): 1 trekk (som M(1)).</li>
+                                <li>Totalt: M(2) = M(1) + 1 + M(1) = 2 * M(1) + 1 = 2 * 1 + 1 = <strong>3</strong> trekk.</li>
                             </ol>
                         </li>
                         <li>For å flytte <strong>3</strong> skiver (fra A til C):
                              <ol type="a">
-                                <li>Flytt de <strong>2</strong> øverste skivene fra A til B (hvor mange trekk tok det for 2 skiver?).</li>
+                                <li>Flytt de <strong>2</strong> øverste skivene fra A til B (Dette er det samme problemet som å flytte 2 skiver! Altså M(2) trekk).</li>
                                 <li>Flytt den nederste skiven (3) fra A til C (1 trekk).</li>
-                                <li>Flytt de <strong>2</strong> skivene fra B til C (hvor mange trekk?).</li>
-                                <li>Totalt: ... trekk.</li>
+                                <li>Flytt de <strong>2</strong> skivene fra B til C (Igjen M(2) trekk).</li>
+                                <li>Totalt: M(3) = M(2) + 1 + M(2) = 2 * M(2) + 1 = 2 * 3 + 1 = <strong>7</strong> trekk.</li>
                             </ol>
                         </li>
                     </ul>
                 </li>
-                <li>La M(n) være minimum antall trekk for <em>n</em> skiver. Kan du uttrykke M(n) ved hjelp av M(n-1)? <br> M(n) = ... * M(n-1) + ...</li>
+                <li>La M(n) være minimum antall trekk for <em>n</em> skiver. Kan du se den rekursive sammenhengen? <br> M(n) = 2 * M(n-1) + 1</li>
                 <li>Bruk mønsteret du fant:
                     <ul>
                         <li>M(1) = 1</li>
                         <li>M(2) = 3</li>
                         <li>M(3) = 7</li>
-                        <li>M(4) = ?</li>
-                        <li>M(5) = ?</li>
+                        <li>M(4) = 2 * M(3) + 1 = 2 * 7 + 1 = <strong>15</strong></li>
+                        <li>M(5) = 2 * M(4) + 1 = 2 * 15 + 1 = <strong>31</strong></li>
                     </ul>
-                    Ser disse tallene kjente ut? De er én mindre enn potenser av 2! (2<sup>1</sup>-1, 2<sup>2</sup>-1, 2<sup>3</sup>-1, ...)
+                    Ser disse tallene (1, 3, 7, 15, 31...) kjente ut? Tenk på potenser av 2 (2, 4, 8, 16, 32...). De er alltid én mindre!
                 </li>
-                <li><strong>Den generelle formelen for minimum antall trekk for <em>n</em> skiver er: M(n) = 2<sup>n</sup> - 1</strong></li>
+                <li><strong>Hint:</strong> Det finnes en generell (eksplisitt) formel som direkte beregner M(n) basert på `n`, uten å måtte regne ut alle de forrige trinnene. Den involverer tallet 2 opphøyd i `n`.</li>
             </ol>
-            <p>Test formelen! Stemmer den med det appen viser som "Minimum trekk" for ulike antall skiver?</p>
+
+            <!-- Ny del for å velge/sjekke formel -->
+            <div class="formula-checker">
+                <h3>Hvilken formel er riktig?</h3>
+                <p>Basert på mønsteret over, hvilken av disse generelle formlene tror du gjelder for minimum antall trekk M(n) med n skiver?</p>
+                <label for="formula-select">Velg en formel:</label>
+                <select id="formula-select">
+                    <option value="">-- Velg en formel --</option>
+                    <!-- Alternativer legges til av JavaScript -->
+                </select>
+                <button id="check-formula-button">Sjekk Formel</button>
+                <p id="formula-result"></p> <!-- For tilbakemelding -->
+            </div>
+
         </section>
-
-        <section class="improvements">
-             <h2>Forbedringsforslag 🚀</h2>
-             <ul>
-                 <li>Visuell animasjon når en skive flyttes.</li>
-                 <li>Lyd-effekter for flytting og seier.</li>
-                 <li>"Angre trekk"-knapp.</li>
-                 <li>Mulighet for å se den optimale løsningen bli spilt av.</li>
-                 <li>Tidtaker for å konkurrere mot seg selv.</li>
-                 <li>Flere visuelle temaer (f.eks. tre, metall, neon).</li>
-                 <li>Tilpasning av farger på skivene.</li>
-                 <li>Bedre tilbakemelding ved ulovlige trekk (f.eks. riste på skiven).</li>
-                 <li>Lagring av beste tid/minste antall trekk (bruker `localStorage`).</li>
-                 <li>Forbedret tilgjengelighet (WCAG) - f.eks. tastaturnavigasjon.</li>
-             </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Laget med HTML, CSS & JavaScript.</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+        <!-- Resten av HTML er som før -->
