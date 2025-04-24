@@ -17,6 +17,9 @@
     --base-disk-height: 25px;
     --max-disk-width: 200px;
     --min-disk-width-factor: 0.3;
+    --block-bg-color: rgba(44, 62, 80, 0.7); /* Litt lysere enn hovedbakgrunn for blokkene */
+    --block-padding: 25px;
+    --block-radius: 10px;
 }
 
 * {
@@ -33,17 +36,19 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Fjerner padding-top her, legger margin på elementene */
 }
 
 /* =================================
-   Header og Footer (som før)
+   Header og Footer
    ================================= */
 header {
     text-align: center;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    width: 100%; /* Tar full bredde */
+    background-color: rgba(0, 0, 0, 0.3); /* Litt mørkere */
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10; /* Sikrer at den ligger over annet innhold om nødvendig */
+    position: relative; /* Nødvendig for z-index */
 }
 
 header h1 {
@@ -54,75 +59,78 @@ header h1 {
 footer {
     text-align: center;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    margin-top: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-top: auto; /* Viktig for flex layout */
     font-size: 0.9em;
     color: var(--peg-color);
-    width: 100%; /* Tar full bredde */
+    width: 100%;
 }
 
 /* =================================
-   Ny Layout
+   Hovedinnhold Layout
    ================================= */
+main {
+    flex-grow: 1; /* Tar opp plassen mellom header og footer */
+    padding: 20px 0; /* Padding topp/bunn, ingen på sidene her */
+    width: 100%;
+    display: flex; /* For å sentrere innholdet vertikalt om ønskelig, men ikke nødvendig nå */
+    flex-direction: column;
+    align-items: center; /* Sentrerer game-area og content-blocks horisontalt */
+}
 
-/* Spillområdet øverst */
+/* Spillområdet */
 .game-area {
-    /* Ikke lenger grid-area: game */
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
     padding: 30px;
     background: linear-gradient(to bottom, #34495e, #2c3e50);
-    border-radius: 8px; /* Kan beholdes eller fjernes hvis man vil ha skarp kant øverst */
-    /* Justert min-høyde for å passe til 10 skiver + base + luft */
-    min-height: 400px;
+    border-radius: var(--block-radius);
+    min-height: 400px; /* Passe høyde for 10 skiver */
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     overflow: hidden;
-    /* Sentrering og bredde */
-    width: 95%; /* Tar nesten full bredde */
-    max-width: 1200px; /* Men ikke mer enn 1200px */
-    margin: 30px auto 20px auto; /* Topp/bunn margin, auto venstre/høyre for sentrering */
+    width: 95%;
+    max-width: 1000px; /* Litt smalere maksbredde for fokus */
+    margin-bottom: 30px; /* Luft ned til neste seksjon */
 }
 
-/* Container for info-blokkene under spillet */
-.info-container {
-    display: grid;
-    /* Responsive kolonner: Minst 350px bredde, ellers fyll */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px; /* Mellomrom mellom blokkene */
-    padding: 0 20px 20px 20px; /* Padding på sidene og bunn, 0 topp */
-    max-width: 1400px; /* Maks bredde for info-blokkene */
-    margin: 0 auto; /* Sentrerer info-containeren */
+/* Container for innholdsblokker */
+.content-blocks {
+    display: flex; /* Bruker flexbox for å arrangere blokkene */
+    flex-wrap: wrap; /* Tillater blokkene å flytte ned på smale skjermer */
+    justify-content: center; /* Sentrerer blokkene horisontalt */
+    gap: 25px; /* Mellomrom mellom blokkene */
+    width: 95%;
+    max-width: 1300px; /* Maks bredde for blokkene */
+    padding: 0 10px; /* Litt luft på sidene av containeren */
 }
 
-/* Styling for hver info-blokk */
-.controls,
-.learning-zone,
-.improvements {
-    /* Ikke lenger grid-area */
-    background-color: rgba(0, 0, 0, 0.3); /* Litt mørkere/annerledes enn spillet? */
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    /* Legger til litt innvendig skygge for 'dybde' */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.2);
+/* Felles stil for innholdsblokker */
+.block { /* Gjelder .controls, .learning-zone, .improvements */
+    background-color: var(--block-bg-color);
+    padding: var(--block-padding);
+    border-radius: var(--block-radius);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    /* Definerer hvordan blokkene skal vokse/krympe */
+    flex: 1 1 400px; /* Basis: 400px, kan vokse, kan krympe */
+    min-width: 320px; /* Minimumsbredde før de knekker */
 }
 
 /* =================================
-   Innhold Styling (Justeringer + Eksisterende)
+   Spesifikk Styling (Mye gjenbruk)
    ================================= */
 
-/* Felles for seksjoner */
-.controls h2, .learning-zone h2, .improvements h2 {
+/* Overskrifter i blokker */
+.block h2 {
     color: var(--accent-color);
-    margin-bottom: 20px; /* Litt mer luft under overskrift */
+    margin-bottom: 20px;
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 8px;
     display: inline-block;
 }
 
-/* Kontroller (som før) */
+/* Kontroller */
 .control-group { margin-bottom: 15px; }
 .control-group label { margin-right: 10px; font-weight: 600; }
 #disk-count, button { padding: 10px 15px; border: none; border-radius: 5px; font-family: var(--font-family); font-size: 1em; cursor: pointer; transition: background-color 0.3s ease, transform 0.1s ease; }
@@ -134,22 +142,22 @@ button:active { transform: scale(0.98); }
 .win-message { margin-top: 15px; padding: 10px; background-color: var(--win-color); color: var(--bg-color); text-align: center; border-radius: 5px; font-weight: bold; animation: fadeIn 0.5s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Spillområde - Tårn, Pinner, Disker (Høydejustering fra forrige fiks) */
+/* Spillområde - Tårn, Pinner, Disker */
 .tower { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 30%; height: 100%; position: relative; }
-.peg { width: 15px; height: 55%; /* Beholdes fra forrige fiks ift game-area høyde */ background-color: var(--peg-color); border-radius: 5px 5px 0 0; position: absolute; bottom: 10%; z-index: 1; box-shadow: inset 0 0 5px rgba(0,0,0,0.4); }
+.peg { width: 15px; height: 55%; background-color: var(--peg-color); border-radius: 5px 5px 0 0; position: absolute; bottom: 10%; z-index: 1; box-shadow: inset 0 0 5px rgba(0,0,0,0.4); }
 .tower::after { content: ''; display: block; width: 100%; height: 10%; background-color: var(--peg-base-color); border-radius: 5px; position: absolute; bottom: 0; z-index: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 .disks { display: flex; flex-direction: column-reverse; align-items: center; width: 100%; position: relative; z-index: 2; padding-bottom: 10%; }
 .disk { height: var(--base-disk-height); border-radius: calc(var(--base-disk-height) / 2); margin-bottom: 4px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.1); position: relative; color: white; font-size: 0.8em; display: flex; justify-content: center; align-items: center; }
 .disk:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
 .disk.selected { box-shadow: 0 0 15px 5px var(--accent-color); opacity: 0.8; }
 
-/* Læringssonen (som før) */
+/* Læringssonen */
 .learning-zone ol, .learning-zone ul { margin-left: 20px; margin-bottom: 15px; }
 .learning-zone li { margin-bottom: 10px; }
 .learning-zone strong { color: var(--accent-color); }
 .learning-zone code { background-color: rgba(255, 255, 255, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace; }
 
-/* Formel Sjekker (som før) */
+/* Formel Sjekker */
 .formula-checker { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
 .formula-checker h3 { margin-bottom: 10px; color: var(--accent-color); }
 .formula-checker label { display: block; margin-bottom: 8px; font-weight: 600; }
@@ -159,75 +167,48 @@ button:active { transform: scale(0.98); }
 #formula-result.correct { color: var(--win-color); }
 #formula-result.incorrect { color: var(--error-color); }
 
-/* Forbedringsliste (som før) */
+/* Forbedringsliste */
 .improvements ul { list-style: '🚀 '; padding-left: 30px; }
 .improvements li { margin-bottom: 8px; }
 
 /* =================================
    Responsivitet for Ny Layout
    ================================= */
-@media (max-width: 1000px) {
-    /* Spillområdet er allerede sentrert og < 100% bredde, så ingen endring trengs her */
+@media (max-width: 768px) { /* Brytpunkt for når blokkene typisk går under hverandre */
     .game-area {
-        min-height: 380px; /* Juster game-area høyde for medium skjerm */
+        min-height: 350px; /* Juster game-area høyde for mindre skjermer */
+        width: 98%; /* Ta nesten full bredde */
     }
-
-    /* Info-container: Grid vil automatisk flyte til færre kolonner */
-    .info-container {
-        padding: 0 15px 15px 15px; /* Mindre padding på sidene */
+    .peg { width: 12px; } /* Litt smalere pinner */
+    .content-blocks {
+         gap: 20px; /* Litt mindre gap */
+         width: 98%;
+         padding: 0 5px; /* Minimal padding */
     }
-
-    :root {
-        /* Juster disk størrelse for medium skjerm */
+    .block {
+        flex-basis: 100%; /* Tvinger blokkene til å ta full bredde */
+        min-width: unset; /* Fjerner minimumsbredde */
+        padding: 20px; /* Litt mindre padding inni blokkene */
+    }
+     :root { /* Juster disk størrelse for mindre skjermer */
         --base-disk-height: 22px;
         --max-disk-width: 150px;
     }
+     button, #disk-count, #formula-select { font-size: 0.9em; }
 }
 
-@media (max-width: 600px) {
-    header h1 { font-size: 1.8em; }
-
+@media (max-width: 480px) { /* Enda mindre skjermer */
+     header h1 { font-size: 1.6em; }
+     header p { font-size: 0.9em;}
      .game-area {
-        min-height: 350px; /* Juster game-area høyde for små skjermer */
-        padding: 20px; /* Mindre padding inni spillet */
-    }
-    .peg {
-        width: 10px;
-    }
-
-    /* Info-container: Grid vil sannsynligvis gå til én kolonne */
-     .info-container {
-        grid-template-columns: 1fr; /* Tving til én kolonne på små skjermer */
-        padding: 0 10px 10px 10px;
-        gap: 15px;
-    }
-     .controls, .learning-zone, .improvements {
-        padding: 20px; /* Mindre padding inni boksene */
+        min-height: 300px;
+        padding: 15px;
      }
-
-    :root {
-        /* Juster disk størrelse for små skjermer */
-        --base-disk-height: 20px;
-        --max-disk-width: 120px;
+     .peg { width: 10px; }
+      :root { /* Juster disk størrelse for små skjermer */
+        --base-disk-height: 18px;
+        --max-disk-width: 100px;
     }
-    button, #disk-count, #formula-select {
-        font-size: 0.9em;
-        padding: 8px 12px;
-    }
-    .learning-zone, .improvements {
-        font-size: 0.9em;
-    }
-
-    /* Stabler formel-knapp og resultat på små skjermer */
-     #check-formula-button {
-        display: block;
-        width: 100%;
-        margin-bottom: 10px;
-        margin-right: 0;
-     }
-     #formula-result {
-        display: block;
-        text-align: center;
-        margin-top: 5px;
-     }
+    #check-formula-button { display: block; width: 100%; margin-bottom: 10px; margin-right: 0; }
+    #formula-result { display: block; text-align: center; margin-top: 5px; }
 }
