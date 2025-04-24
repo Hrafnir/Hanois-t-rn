@@ -14,9 +14,10 @@
     --error-color: #e74c3c; /* Rød */
     --disk-colors: #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6, #1abc9c, #d35400, #c0392b, #7f8c8d;
     --font-family: 'Poppins', sans-serif;
+    /* Behold 25px for standard disk høyde */
     --base-disk-height: 25px;
-    --max-disk-width: 200px; /* Maks bredde for største skive */
-    --min-disk-width-factor: 0.3; /* Minste skive er 30% av maks bredde */
+    --max-disk-width: 200px;
+    --min-disk-width-factor: 0.3;
 }
 
 * {
@@ -51,7 +52,7 @@ header h1 {
 }
 
 footer {
-    margin-top: auto; /* Skyver footer til bunnen */
+    margin-top: auto;
     font-size: 0.9em;
     color: var(--peg-color);
 }
@@ -96,7 +97,8 @@ footer {
     padding: 30px;
     background: linear-gradient(to bottom, #34495e, #2c3e50);
     border-radius: 8px;
-    min-height: 450px; /* Behold denne for å gi plass til skiver */
+    /* --- JUSTERING HER: Redusert min-høyde --- */
+    min-height: 400px; /* Gir plass til 10 skiver (ca 286px) + base (10%=40px) + luft (~74px) */
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     overflow: hidden;
@@ -203,12 +205,12 @@ button:active {
 
 .peg {
     width: 15px;
-    /* --- JUSTERING HER --- */
-    height: 60%; /* Redusert fra 80% for å gjøre pinnen kortere */
+    /* --- JUSTERING HER: Justert peg høyde --- */
+    height: 55%; /* Justert for å passe bedre med lavere game-area */
     background-color: var(--peg-color);
     border-radius: 5px 5px 0 0;
     position: absolute;
-    bottom: 10%; /* Starter fortsatt på samme sted over basen */
+    bottom: 10%; /* Starter fortsatt 10% over bunnen (over basen) */
     z-index: 1;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
@@ -234,14 +236,13 @@ button:active {
     width: 100%;
     position: relative;
     z-index: 2;
-    /* Viktig: Denne må matche peg 'bottom' og tower::after 'height' */
-    padding-bottom: 10%;
+    padding-bottom: 10%; /* Løfter diskene til å starte på toppen av basen */
 }
 
 .disk {
     height: var(--base-disk-height);
     border-radius: calc(var(--base-disk-height) / 2);
-    margin-bottom: 4px;
+    margin-bottom: 4px; /* Mellomrom mellom diskene */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -358,14 +359,17 @@ button:active {
     }
 
     .game-area {
-        min-height: 400px;
+         /* Juster min-høyde for medium skjermer */
+        min-height: 380px;
     }
     .peg {
         width: 12px;
-        /* Du kan vurdere å justere % her også, men la oss se */
+        /* Juster peg høyde prosent for medium skjermer om nødvendig */
+        /* height: 55%; */ /* Kan beholdes eller justeres litt */
     }
     :root {
-        --base-disk-height: 20px;
+        /* Juster disk høyde/bredde for medium skjermer */
+        --base-disk-height: 22px;
         --max-disk-width: 150px;
     }
 }
@@ -374,15 +378,18 @@ button:active {
     header h1 { font-size: 1.8em; }
 
     .game-area {
+        /* Juster min-høyde for små skjermer */
         min-height: 350px;
         padding: 15px;
     }
     .peg {
         width: 10px;
-         /* Du kan vurdere å justere % her også, men la oss se */
+        /* Juster peg høyde prosent for små skjermer om nødvendig */
+         /* height: 55%; */ /* Kan beholdes eller justeres litt */
     }
     :root {
-        --base-disk-height: 18px;
+        /* Juster disk høyde/bredde for små skjermer */
+        --base-disk-height: 20px;
         --max-disk-width: 120px;
     }
     button, #disk-count, #formula-select {
