@@ -16,8 +16,7 @@
     --border-color: #dee2e6; /* Lys grå for borders */
     --shadow-color: rgba(0, 0, 0, 0.1);
     --tower-hover-bg: rgba(52, 152, 219, 0.1); /* Lys blå hover for tårn */
-    /* NYTT: Subtil kant/bakgrunn for tårn-området */
-    --tower-area-border: rgba(0, 0, 0, 0.04);
+    --tower-area-border: rgba(0, 0, 0, 0.04); /* Subtil kant for tårn-området */
     --disk-colors: #e74c3c, #f39c12, #f1c40f, #2ecc71, #3498db, #9b59b6, #34495e, #1abc9c, #d35400, #bdc3c7; /* 10 distinkte farger */
 
     /* Faste høyder for spillkomponenter */
@@ -38,11 +37,14 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    /* Legg til litt padding øverst på body for å sikre at container-margin virker */
+    padding-top: 1px;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 20px;
+    max-width: 1200px; /* Bred container */
+    /* Midtstilt horisontalt med topp/bunn margin */
+    margin: 20px auto;
     padding: 25px;
     background-color: var(--panel-background);
     border-radius: 12px;
@@ -71,11 +73,8 @@ main {
 .game-area {
     display: flex;
     justify-content: space-around;
-    /* ENDRET: align-items ikke lenger nødvendig her på samme måte */
-    /* align-items: flex-end; */
     min-height: var(--tower-total-min-height);
     background-color: #e9ecef;
-    /* ENDRET: Padding justert, spesielt topp for tower-container padding */
     padding: 10px 10px 0;
     border-radius: 8px;
     position: relative;
@@ -86,23 +85,20 @@ main {
     flex: 1;
     max-width: 30%;
     min-height: var(--tower-total-min-height);
-    display: flex; /* Trengs fortsatt for flex-basis/grow */
+    display: flex;
     flex-direction: column;
-    /* align-items: center; Fjernet, barna er absolutt posisjonert */
     position: relative;
     cursor: pointer;
-    /* ENDRET: Padding top for luft, padding bottom for base */
     padding-top: var(--tower-padding-top);
     padding-bottom: var(--peg-base-height);
-    border-radius: 6px; /* Avrundet for klikkfeltet */
+    border-radius: 6px;
     transition: background-color 0.2s ease, border-color 0.2s ease;
-    /* NYTT: Subtil permanent kant for å definere feltet */
     border: 1px solid var(--tower-area-border);
 }
 
 .tower-container:hover {
     background-color: var(--tower-hover-bg);
-    border-color: rgba(52, 152, 219, 0.3); /* Litt tydeligere kant på hover */
+    border-color: rgba(52, 152, 219, 0.3);
 }
 
 .peg {
@@ -111,12 +107,11 @@ main {
     background-color: var(--peg-color);
     border-radius: 6px 6px 0 0;
     position: absolute;
-    bottom: var(--peg-base-height); /* Over basen */
+    bottom: var(--peg-base-height);
     left: 50%;
     transform: translateX(-50%);
     z-index: 1; /* Bak diskene */
     box-shadow: 1px 0 3px rgba(0,0,0,0.2);
-    /* Pinnen er alltid her, synligheten avhenger kun av om disker (z-index 2) er over */
 }
 
 .base {
@@ -139,7 +134,7 @@ main {
     flex-direction: column-reverse;
     align-items: center;
     position: absolute;
-    bottom: var(--peg-base-height); /* Starter over basen */
+    bottom: var(--peg-base-height);
     left: 0;
     z-index: 2; /* Foran pinnen */
     pointer-events: none; /* Klikk går gjennom til tower-container */
@@ -156,10 +151,10 @@ main {
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     border: 1px solid rgba(0,0,0,0.1);
     pointer-events: auto; /* Skivene selv fanger events */
-    cursor: pointer; /* Behold cursor på diskene */
+    cursor: pointer;
 }
 
-/* Farger for opptil 10 skiver (uendret) */
+/* Farger for opptil 10 skiver */
 .disk[data-size="1"] { background: linear-gradient(145deg, #ff5e57, #e74c3c); }
 .disk[data-size="2"] { background: linear-gradient(145deg, #ffab40, #f39c12); }
 .disk[data-size="3"] { background: linear-gradient(145deg, #ffd761, #f1c40f); }
@@ -171,7 +166,7 @@ main {
 .disk[data-size="9"] { background: linear-gradient(145deg, #ff8a65, #d35400); }
 .disk[data-size="10"]{ background: linear-gradient(145deg, #cfd8dc, #bdc3c7); }
 
-/* Visuell Feedback (uendret) */
+/* Visuell Feedback */
 .disk.selected {
     outline: 3px solid var(--selected-outline);
     outline-offset: 2px;
@@ -190,7 +185,7 @@ main {
   40%, 60% { transform: translateX(3px); }
 }
 
-/* Kontrollpaneler og Info (strukturelt uendret) */
+/* Kontrollpaneler og Info */
 .controls-info-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -292,7 +287,7 @@ button:active {
 }
 
 
-/* Formel Sjekker (uendret) */
+/* Formel Sjekker */
 .formula-checker {
     margin-top: 20px;
     padding-top: 15px;
@@ -316,7 +311,7 @@ button:active {
 }
 
 
-/* Footer (uendret) */
+/* Footer */
 footer {
     text-align: center;
     margin-top: 30px;
@@ -327,14 +322,14 @@ footer {
 }
 
 
-/* Responsivitet (Justering av høydevariabler og padding) */
-@media (max-width: 992px) {
-    .container {
-        max-width: 95%;
-        margin: 15px;
-        padding: 20px;
+/* Responsivitet */
+@media (max-width: 1250px) { /* Juster breakpoint litt pga 1200px + margin */
+     .container {
+        max-width: 95%; /* Mer flytende når skjermen nærmer seg max-width */
+        margin: 15px auto; /* Juster margin for mindre skjermer om nødvendig */
     }
 }
+
 
 @media (max-width: 768px) {
     :root {
@@ -344,11 +339,11 @@ footer {
         --tower-padding-top: 10px;
     }
      .container {
-        margin: 10px;
+        /* margin: 10px auto; Kan justeres ved behov */
         padding: 15px;
     }
      .game-area {
-        padding: 8px 8px 0; /* Justert padding */
+        padding: 8px 8px 0;
     }
     .disk {
         height: 18px;
@@ -372,12 +367,14 @@ footer {
         --tower-padding-top: 8px;
     }
     .container {
-        margin: 5px;
+        /* margin: 5px auto; Kan justeres ved behov */
         padding: 10px;
         border-radius: 8px;
+        /* På veldig små skjermer, kan det være bedre å ikke ha auto margin */
+        /* margin-left: 5px; margin-right: 5px; */
     }
      .game-area {
-        padding: 5px 5px 0; /* Justert padding */
+        padding: 5px 5px 0;
     }
     .peg { width: 8px; }
 
