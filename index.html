@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hanois Tårn - Interaktiv Læring</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Link til din CSS-fil -->
 </head>
 <body>
 
@@ -13,7 +13,9 @@
         <p>Flytt tårnet fra start-pinnen (venstre) til mål-pinnen (høyre).</p>
     </header>
 
+    <!-- Start på den korrigerte main-blokken -->
     <main class="app-container">
+
         <section class="controls">
             <h2>Innstillinger & Info</h2>
             <div class="control-group">
@@ -37,7 +39,7 @@
              <div id="win-message" class="win-message" style="display: none;">
                  🎉 Gratulerer! Du klarte det! 🎉
              </div>
-        </section>
+        </section> <!-- Lukker controls -->
 
         <section class="game-area">
             <div class="tower" id="tower-0">
@@ -52,9 +54,8 @@
                 <div class="peg"></div>
                 <div class="disks"></div>
             </div>
-        </section>
+        </section> <!-- Lukker game-area -->
 
-        <!-- Oppdatert Læringsseksjon -->
         <section class="learning-zone">
             <h2>Oppdag Formelen! 🧠</h2>
             <p>Hanois tårn er mer enn et spill; det er et matematisk puslespill! La oss undersøke hvor mange trekk som *minimum* kreves.</p>
@@ -96,7 +97,6 @@
                 <li><strong>Hint:</strong> Det finnes en generell (eksplisitt) formel som direkte beregner M(n) basert på `n`, uten å måtte regne ut alle de forrige trinnene. Den involverer tallet 2 opphøyd i `n`.</li>
             </ol>
 
-            <!-- Ny del for å velge/sjekke formel -->
             <div class="formula-checker">
                 <h3>Hvilken formel er riktig?</h3>
                 <p>Basert på mønsteret over, hvilken av disse generelle formlene tror du gjelder for minimum antall trekk M(n) med n skiver?</p>
@@ -108,7 +108,7 @@
                 <button id="check-formula-button">Sjekk Formel</button>
                 <p id="formula-result"></p> <!-- For tilbakemelding -->
             </div>
-        </section>
+        </section> <!-- Lukker learning-zone -->
 
         <section class="improvements">
              <h2>Forbedringsforslag 🚀</h2>
@@ -124,13 +124,15 @@
                  <li>Lagring av beste tid/minste antall trekk (bruker `localStorage`).</li>
                  <li>Forbedret tilgjengelighet (WCAG) - f.eks. tastaturnavigasjon.</li>
              </ul>
-        </section>
-    </main>
+        </section> <!-- Lukker improvements -->
+
+    </main> <!-- Lukker app-container -->
+    <!-- Slutt på den korrigerte main-blokken -->
 
     <footer>
         <p>Laget med HTML, CSS & JavaScript.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> <!-- Link til din JavaScript-fil -->
 </body>
 </html>
