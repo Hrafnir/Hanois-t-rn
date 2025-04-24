@@ -4,17 +4,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
-    --bg-color: #2c3e50; /* Mørk blågrå */
-    --peg-color: #bdc3c7; /* Lys grå */
-    --peg-base-color: #95a5a6; /* Medium grå */
-    --text-color: #ecf0f1; /* Veldig lys grå/hvit */
-    --accent-color: #3498db; /* Blå */
+    --bg-color: #2c3e50;
+    --peg-color: #bdc3c7;
+    --peg-base-color: #95a5a6;
+    --text-color: #ecf0f1;
+    --accent-color: #3498db;
     --accent-hover: #2980b9;
-    --win-color: #2ecc71; /* Grønn */
-    --error-color: #e74c3c; /* Rød */
+    --win-color: #2ecc71;
+    --error-color: #e74c3c;
     --disk-colors: #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6, #1abc9c, #d35400, #c0392b, #7f8c8d;
     --font-family: 'Poppins', sans-serif;
-    /* Behold 25px for standard disk høyde */
     --base-disk-height: 25px;
     --max-disk-width: 200px;
     --min-disk-width-factor: 0.3;
@@ -34,16 +33,17 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-top: 20px;
+    /* Fjerner padding-top her, legger margin på elementene */
 }
 
 /* =================================
-   Header og Footer
+   Header og Footer (som før)
    ================================= */
-header, footer {
+header {
     text-align: center;
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.2);
+    width: 100%; /* Tar full bredde */
 }
 
 header h1 {
@@ -52,323 +52,133 @@ header h1 {
 }
 
 footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
     margin-top: auto;
     font-size: 0.9em;
     color: var(--peg-color);
+    width: 100%; /* Tar full bredde */
 }
 
 /* =================================
-   App Container & Grid Layout
+   Ny Layout
    ================================= */
-.app-container {
-    display: grid;
-    grid-template-areas:
-        "controls game"
-        "learning game"
-        "improvements game";
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: auto auto auto;
-    gap: 20px;
-    padding: 20px;
-    max-width: 1400px;
-    margin: 20px auto;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-}
 
-/* Tildeler hver seksjon til sitt navngitte område */
-.controls {
-    grid-area: controls;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-}
-
+/* Spillområdet øverst */
 .game-area {
-    grid-area: game;
+    /* Ikke lenger grid-area: game */
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
     padding: 30px;
     background: linear-gradient(to bottom, #34495e, #2c3e50);
-    border-radius: 8px;
-    /* --- JUSTERING HER: Redusert min-høyde --- */
-    min-height: 400px; /* Gir plass til 10 skiver (ca 286px) + base (10%=40px) + luft (~74px) */
+    border-radius: 8px; /* Kan beholdes eller fjernes hvis man vil ha skarp kant øverst */
+    /* Justert min-høyde for å passe til 10 skiver + base + luft */
+    min-height: 400px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     overflow: hidden;
+    /* Sentrering og bredde */
+    width: 95%; /* Tar nesten full bredde */
+    max-width: 1200px; /* Men ikke mer enn 1200px */
+    margin: 30px auto 20px auto; /* Topp/bunn margin, auto venstre/høyre for sentrering */
 }
 
-.learning-zone {
-    grid-area: learning;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+/* Container for info-blokkene under spillet */
+.info-container {
+    display: grid;
+    /* Responsive kolonner: Minst 350px bredde, ellers fyll */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px; /* Mellomrom mellom blokkene */
+    padding: 0 20px 20px 20px; /* Padding på sidene og bunn, 0 topp */
+    max-width: 1400px; /* Maks bredde for info-blokkene */
+    margin: 0 auto; /* Sentrerer info-containeren */
 }
 
+/* Styling for hver info-blokk */
+.controls,
+.learning-zone,
 .improvements {
-    grid-area: improvements;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    /* Ikke lenger grid-area */
+    background-color: rgba(0, 0, 0, 0.3); /* Litt mørkere/annerledes enn spillet? */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    /* Legger til litt innvendig skygge for 'dybde' */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* =================================
-   Styling av Seksjonsinnhold
+   Innhold Styling (Justeringer + Eksisterende)
    ================================= */
 
 /* Felles for seksjoner */
 .controls h2, .learning-zone h2, .improvements h2 {
     color: var(--accent-color);
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Litt mer luft under overskrift */
     border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 5px;
+    padding-bottom: 8px;
     display: inline-block;
 }
 
-/* Kontroller */
-.control-group {
-    margin-bottom: 15px;
-}
+/* Kontroller (som før) */
+.control-group { margin-bottom: 15px; }
+.control-group label { margin-right: 10px; font-weight: 600; }
+#disk-count, button { padding: 10px 15px; border: none; border-radius: 5px; font-family: var(--font-family); font-size: 1em; cursor: pointer; transition: background-color 0.3s ease, transform 0.1s ease; }
+#disk-count { background-color: var(--peg-color); color: var(--bg-color); }
+button { background-color: var(--accent-color); color: white; }
+button:hover { background-color: var(--accent-hover); }
+button:active { transform: scale(0.98); }
+#move-count, #min-moves { font-weight: bold; color: var(--win-color); }
+.win-message { margin-top: 15px; padding: 10px; background-color: var(--win-color); color: var(--bg-color); text-align: center; border-radius: 5px; font-weight: bold; animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-.control-group label {
-    margin-right: 10px;
-    font-weight: 600;
-}
+/* Spillområde - Tårn, Pinner, Disker (Høydejustering fra forrige fiks) */
+.tower { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 30%; height: 100%; position: relative; }
+.peg { width: 15px; height: 55%; /* Beholdes fra forrige fiks ift game-area høyde */ background-color: var(--peg-color); border-radius: 5px 5px 0 0; position: absolute; bottom: 10%; z-index: 1; box-shadow: inset 0 0 5px rgba(0,0,0,0.4); }
+.tower::after { content: ''; display: block; width: 100%; height: 10%; background-color: var(--peg-base-color); border-radius: 5px; position: absolute; bottom: 0; z-index: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+.disks { display: flex; flex-direction: column-reverse; align-items: center; width: 100%; position: relative; z-index: 2; padding-bottom: 10%; }
+.disk { height: var(--base-disk-height); border-radius: calc(var(--base-disk-height) / 2); margin-bottom: 4px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.1); position: relative; color: white; font-size: 0.8em; display: flex; justify-content: center; align-items: center; }
+.disk:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
+.disk.selected { box-shadow: 0 0 15px 5px var(--accent-color); opacity: 0.8; }
 
-#disk-count, button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-family: var(--font-family);
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-}
+/* Læringssonen (som før) */
+.learning-zone ol, .learning-zone ul { margin-left: 20px; margin-bottom: 15px; }
+.learning-zone li { margin-bottom: 10px; }
+.learning-zone strong { color: var(--accent-color); }
+.learning-zone code { background-color: rgba(255, 255, 255, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace; }
 
-#disk-count {
-    background-color: var(--peg-color);
-    color: var(--bg-color);
-}
+/* Formel Sjekker (som før) */
+.formula-checker { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+.formula-checker h3 { margin-bottom: 10px; color: var(--accent-color); }
+.formula-checker label { display: block; margin-bottom: 8px; font-weight: 600; }
+#formula-select { width: 100%; padding: 10px; margin-bottom: 10px; border: none; border-radius: 5px; font-family: var(--font-family); font-size: 1em; background-color: var(--peg-color); color: var(--bg-color); cursor: pointer; }
+#check-formula-button { display: inline-block; margin-right: 10px; }
+#formula-result { display: inline-block; font-weight: bold; transition: color 0.3s ease; }
+#formula-result.correct { color: var(--win-color); }
+#formula-result.incorrect { color: var(--error-color); }
 
-button {
-    background-color: var(--accent-color);
-    color: white;
-}
-
-button:hover {
-    background-color: var(--accent-hover);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-#move-count, #min-moves {
-    font-weight: bold;
-    color: var(--win-color);
-}
-
-.win-message {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: var(--win-color);
-    color: var(--bg-color);
-    text-align: center;
-    border-radius: 5px;
-    font-weight: bold;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Spillområde - Tårn, Pinner, Disker */
-.tower {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    width: 30%;
-    height: 100%;
-    position: relative;
-}
-
-.peg {
-    width: 15px;
-    /* --- JUSTERING HER: Justert peg høyde --- */
-    height: 55%; /* Justert for å passe bedre med lavere game-area */
-    background-color: var(--peg-color);
-    border-radius: 5px 5px 0 0;
-    position: absolute;
-    bottom: 10%; /* Starter fortsatt 10% over bunnen (over basen) */
-    z-index: 1;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
-}
-
-/* Base for pinnen */
-.tower::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 10%; /* Høyde på basen */
-    background-color: var(--peg-base-color);
-    border-radius: 5px;
-    position: absolute;
-    bottom: 0;
-    z-index: 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-.disks {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    z-index: 2;
-    padding-bottom: 10%; /* Løfter diskene til å starte på toppen av basen */
-}
-
-.disk {
-    height: var(--base-disk-height);
-    border-radius: calc(var(--base-disk-height) / 2);
-    margin-bottom: 4px; /* Mellomrom mellom diskene */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    border: 1px solid rgba(0,0,0,0.1);
-    position: relative;
-    color: white;
-    font-size: 0.8em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.disk:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-
-.disk.selected {
-    box-shadow: 0 0 15px 5px var(--accent-color);
-    opacity: 0.8;
-}
-
-/* Læringssonen */
-.learning-zone ol, .learning-zone ul {
-    margin-left: 20px;
-    margin-bottom: 15px;
-}
-.learning-zone li {
-    margin-bottom: 10px;
-}
-.learning-zone strong {
-    color: var(--accent-color);
-}
-.learning-zone code {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-family: monospace;
-}
-
-/* Formel Sjekker */
-.formula-checker {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.formula-checker h3 {
-     margin-bottom: 10px;
-     color: var(--accent-color);
-}
-
-.formula-checker label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-#formula-select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    font-family: var(--font-family);
-    font-size: 1em;
-    background-color: var(--peg-color);
-    color: var(--bg-color);
-    cursor: pointer;
-}
-
-#check-formula-button {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-#formula-result {
-    display: inline-block;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-#formula-result.correct {
-    color: var(--win-color);
-}
-
-#formula-result.incorrect {
-    color: var(--error-color);
-}
-
-
-/* Forbedringsliste */
-.improvements ul {
-    list-style: '🚀 ';
-    padding-left: 30px;
-}
-.improvements li {
-    margin-bottom: 8px;
-}
+/* Forbedringsliste (som før) */
+.improvements ul { list-style: '🚀 '; padding-left: 30px; }
+.improvements li { margin-bottom: 8px; }
 
 /* =================================
-   Responsivitet
+   Responsivitet for Ny Layout
    ================================= */
 @media (max-width: 1000px) {
-    .app-container {
-        grid-template-areas:
-            "controls"
-            "game"
-            "learning"
-            "improvements";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
-        padding: 15px;
+    /* Spillområdet er allerede sentrert og < 100% bredde, så ingen endring trengs her */
+    .game-area {
+        min-height: 380px; /* Juster game-area høyde for medium skjerm */
     }
 
-    .game-area {
-         /* Juster min-høyde for medium skjermer */
-        min-height: 380px;
+    /* Info-container: Grid vil automatisk flyte til færre kolonner */
+    .info-container {
+        padding: 0 15px 15px 15px; /* Mindre padding på sidene */
     }
-    .peg {
-        width: 12px;
-        /* Juster peg høyde prosent for medium skjermer om nødvendig */
-        /* height: 55%; */ /* Kan beholdes eller justeres litt */
-    }
+
     :root {
-        /* Juster disk høyde/bredde for medium skjermer */
+        /* Juster disk størrelse for medium skjerm */
         --base-disk-height: 22px;
         --max-disk-width: 150px;
     }
@@ -377,18 +187,26 @@ button:active {
 @media (max-width: 600px) {
     header h1 { font-size: 1.8em; }
 
-    .game-area {
-        /* Juster min-høyde for små skjermer */
-        min-height: 350px;
-        padding: 15px;
+     .game-area {
+        min-height: 350px; /* Juster game-area høyde for små skjermer */
+        padding: 20px; /* Mindre padding inni spillet */
     }
     .peg {
         width: 10px;
-        /* Juster peg høyde prosent for små skjermer om nødvendig */
-         /* height: 55%; */ /* Kan beholdes eller justeres litt */
     }
+
+    /* Info-container: Grid vil sannsynligvis gå til én kolonne */
+     .info-container {
+        grid-template-columns: 1fr; /* Tving til én kolonne på små skjermer */
+        padding: 0 10px 10px 10px;
+        gap: 15px;
+    }
+     .controls, .learning-zone, .improvements {
+        padding: 20px; /* Mindre padding inni boksene */
+     }
+
     :root {
-        /* Juster disk høyde/bredde for små skjermer */
+        /* Juster disk størrelse for små skjermer */
         --base-disk-height: 20px;
         --max-disk-width: 120px;
     }
@@ -400,6 +218,7 @@ button:active {
         font-size: 0.9em;
     }
 
+    /* Stabler formel-knapp og resultat på små skjermer */
      #check-formula-button {
         display: block;
         width: 100%;
