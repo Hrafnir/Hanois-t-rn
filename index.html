@@ -1,4 +1,60 @@
-        <!-- Erstatt hele <section class="learning-zone"> med dette: -->
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanois Tårn - Interaktiv Læring</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Hanois Tårn</h1>
+        <p>Flytt tårnet fra start-pinnen (venstre) til mål-pinnen (høyre).</p>
+    </header>
+
+    <main class="app-container">
+        <section class="controls">
+            <h2>Innstillinger & Info</h2>
+            <div class="control-group">
+                <label for="disk-count">Antall skiver:</label>
+                <select id="disk-count">
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <p>Antall trekk: <span id="move-count">0</span></p>
+                <p>Minimum trekk: <span id="min-moves">?</span></p>
+            </div>
+             <button id="reset-button">Start på nytt</button>
+             <div id="win-message" class="win-message" style="display: none;">
+                 🎉 Gratulerer! Du klarte det! 🎉
+             </div>
+        </section>
+
+        <section class="game-area">
+            <div class="tower" id="tower-0">
+                <div class="peg"></div>
+                <div class="disks"></div>
+            </div>
+            <div class="tower" id="tower-1">
+                <div class="peg"></div>
+                <div class="disks"></div>
+            </div>
+            <div class="tower" id="tower-2">
+                <div class="peg"></div>
+                <div class="disks"></div>
+            </div>
+        </section>
+
+        <!-- Oppdatert Læringsseksjon -->
         <section class="learning-zone">
             <h2>Oppdag Formelen! 🧠</h2>
             <p>Hanois tårn er mer enn et spill; det er et matematisk puslespill! La oss undersøke hvor mange trekk som *minimum* kreves.</p>
@@ -52,6 +108,29 @@
                 <button id="check-formula-button">Sjekk Formel</button>
                 <p id="formula-result"></p> <!-- For tilbakemelding -->
             </div>
-
         </section>
-        <!-- Resten av HTML er som før -->
+
+        <section class="improvements">
+             <h2>Forbedringsforslag 🚀</h2>
+             <ul>
+                 <li>Visuell animasjon når en skive flyttes.</li>
+                 <li>Lyd-effekter for flytting og seier.</li>
+                 <li>"Angre trekk"-knapp.</li>
+                 <li>Mulighet for å se den optimale løsningen bli spilt av.</li>
+                 <li>Tidtaker for å konkurrere mot seg selv.</li>
+                 <li>Flere visuelle temaer (f.eks. tre, metall, neon).</li>
+                 <li>Tilpasning av farger på skivene.</li>
+                 <li>Bedre tilbakemelding ved ulovlige trekk (f.eks. riste på skiven).</li>
+                 <li>Lagring av beste tid/minste antall trekk (bruker `localStorage`).</li>
+                 <li>Forbedret tilgjengelighet (WCAG) - f.eks. tastaturnavigasjon.</li>
+             </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Laget med HTML, CSS & JavaScript.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
