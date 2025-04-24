@@ -57,19 +57,17 @@ footer {
 }
 
 /* =================================
-   App Container & Grid Layout (KORRIGERT)
+   App Container & Grid Layout
    ================================= */
 .app-container {
-    display: grid; /* Aktiverer Grid */
-    grid-template-areas: /* Definerer navngitte områder */
+    display: grid;
+    grid-template-areas:
         "controls game"
         "learning game"
         "improvements game";
-    /* Definerer kolonner: Kontroll/Læring/Forbedring tar 1 brøkdel, Spillet tar 2 */
     grid-template-columns: 1fr 2fr;
-    /* Definerer rader: La innholdet bestemme høyden */
     grid-template-rows: auto auto auto;
-    gap: 20px; /* Mellomrom mellom grid-områdene */
+    gap: 20px;
     padding: 20px;
     max-width: 1400px;
     margin: 20px auto;
@@ -98,7 +96,7 @@ footer {
     padding: 30px;
     background: linear-gradient(to bottom, #34495e, #2c3e50);
     border-radius: 8px;
-    min-height: 450px; /* Justert for å gi mer plass */
+    min-height: 450px; /* Behold denne for å gi plass til skiver */
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     overflow: hidden;
@@ -130,7 +128,7 @@ footer {
     margin-bottom: 15px;
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 5px;
-    display: inline-block; /* For at borderen ikke skal gå hele veien */
+    display: inline-block;
 }
 
 /* Kontroller */
@@ -143,7 +141,7 @@ footer {
     font-weight: 600;
 }
 
-#disk-count, button { /* Gjelder også reset-button og check-formula-button */
+#disk-count, button {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -180,7 +178,7 @@ button:active {
     margin-top: 15px;
     padding: 10px;
     background-color: var(--win-color);
-    color: var(--bg-color); /* God kontrast */
+    color: var(--bg-color);
     text-align: center;
     border-radius: 5px;
     font-weight: bold;
@@ -197,20 +195,21 @@ button:active {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Disker starter fra bunnen */
+    justify-content: flex-end;
     width: 30%;
     height: 100%;
-    position: relative; /* For pinnen og basen */
+    position: relative;
 }
 
 .peg {
-    width: 15px; /* Bredde på pinnen */
-    height: 80%; /* Justert høyde på pinnen */
+    width: 15px;
+    /* --- JUSTERING HER --- */
+    height: 60%; /* Redusert fra 80% for å gjøre pinnen kortere */
     background-color: var(--peg-color);
     border-radius: 5px 5px 0 0;
-    position: absolute; /* Absolutt ift tower */
-    bottom: 10%; /* Starter litt over basen */
-    z-index: 1; /* Bak disker */
+    position: absolute;
+    bottom: 10%; /* Starter fortsatt på samme sted over basen */
+    z-index: 1;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
 
@@ -224,30 +223,31 @@ button:active {
     border-radius: 5px;
     position: absolute;
     bottom: 0;
-    z-index: 0; /* Bak peg og disker */
+    z-index: 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .disks {
     display: flex;
-    flex-direction: column-reverse; /* Nyeste (minste) skive kommer øverst */
+    flex-direction: column-reverse;
     align-items: center;
     width: 100%;
-    position: relative; /* For å stable */
-    z-index: 2; /* Foran pinnen */
-    padding-bottom: 10%; /* Løfter diskene til basenivå */
+    position: relative;
+    z-index: 2;
+    /* Viktig: Denne må matche peg 'bottom' og tower::after 'height' */
+    padding-bottom: 10%;
 }
 
 .disk {
     height: var(--base-disk-height);
     border-radius: calc(var(--base-disk-height) / 2);
-    margin-bottom: 4px; /* Litt luft mellom diskene */
+    margin-bottom: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     border: 1px solid rgba(0,0,0,0.1);
     position: relative;
-    color: white; /* For eventuell tekst inni */
+    color: white;
     font-size: 0.8em;
     display: flex;
     justify-content: center;
@@ -260,9 +260,8 @@ button:active {
 }
 
 .disk.selected {
-    box-shadow: 0 0 15px 5px var(--accent-color); /* Tydelig valg */
+    box-shadow: 0 0 15px 5px var(--accent-color);
     opacity: 0.8;
-    /* Ingen transform her, den håndteres ved flytting/shake */
 }
 
 /* Læringssonen */
@@ -276,7 +275,7 @@ button:active {
 .learning-zone strong {
     color: var(--accent-color);
 }
-.learning-zone code { /* For ev. fremtidig bruk */
+.learning-zone code {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 2px 5px;
     border-radius: 3px;
@@ -296,13 +295,13 @@ button:active {
 }
 
 .formula-checker label {
-    display: block; /* Plasser label over select */
+    display: block;
     margin-bottom: 8px;
     font-weight: 600;
 }
 
 #formula-select {
-    width: 100%; /* Ta opp tilgjengelig bredde */
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: none;
@@ -315,29 +314,28 @@ button:active {
 }
 
 #check-formula-button {
-    /* Bruker felles knappestil */
-    display: inline-block; /* Ikke full bredde som standard */
-    margin-right: 10px; /* Litt avstand til resultat */
+    display: inline-block;
+    margin-right: 10px;
 }
 
 #formula-result {
-    display: inline-block; /* På samme linje som knappen som standard */
+    display: inline-block;
     font-weight: bold;
-    transition: color 0.3s ease; /* Jevn fargeovergang */
+    transition: color 0.3s ease;
 }
 
 #formula-result.correct {
-    color: var(--win-color); /* Grønn ved riktig svar */
+    color: var(--win-color);
 }
 
 #formula-result.incorrect {
-    color: var(--error-color); /* Rød ved feil svar */
+    color: var(--error-color);
 }
 
 
 /* Forbedringsliste */
 .improvements ul {
-    list-style: '🚀 '; /* Kul liste-markør */
+    list-style: '🚀 ';
     padding-left: 30px;
 }
 .improvements li {
@@ -345,29 +343,28 @@ button:active {
 }
 
 /* =================================
-   Responsivitet (KORRIGERT)
+   Responsivitet
    ================================= */
 @media (max-width: 1000px) {
     .app-container {
-        /* Endrer til én kolonne layout */
         grid-template-areas:
             "controls"
             "game"
             "learning"
             "improvements";
-        grid-template-columns: 1fr; /* Bare én kolonne */
-        grid-template-rows: auto auto auto auto; /* Fire rader, høyde styres av innhold */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
         padding: 15px;
     }
-    /* Ingen behov for å redefinere grid-area for barna her */
 
     .game-area {
-        min-height: 400px; /* Juster for mindre skjerm */
+        min-height: 400px;
     }
     .peg {
         width: 12px;
+        /* Du kan vurdere å justere % her også, men la oss se */
     }
-    :root { /* Juster variabler for mindre skjerm */
+    :root {
         --base-disk-height: 20px;
         --max-disk-width: 150px;
     }
@@ -377,15 +374,16 @@ button:active {
     header h1 { font-size: 1.8em; }
 
     .game-area {
-        min-height: 350px; /* Ytterligere justering for små skjermer */
+        min-height: 350px;
         padding: 15px;
     }
     .peg {
         width: 10px;
+         /* Du kan vurdere å justere % her også, men la oss se */
     }
-    :root { /* Juster variabler for små skjermer */
+    :root {
         --base-disk-height: 18px;
-        --max-disk-width: 120px; /* Enda mindre maksbredde */
+        --max-disk-width: 120px;
     }
     button, #disk-count, #formula-select {
         font-size: 0.9em;
@@ -395,12 +393,11 @@ button:active {
         font-size: 0.9em;
     }
 
-    /* Stabler formel-knapp og resultat på små skjermer */
      #check-formula-button {
         display: block;
         width: 100%;
         margin-bottom: 10px;
-        margin-right: 0; /* Fjern høyre marg */
+        margin-right: 0;
      }
      #formula-result {
         display: block;
