@@ -13,9 +13,8 @@
         <p>Flytt tårnet fra start-pinnen (venstre) til mål-pinnen (høyre).</p>
     </header>
 
-    <main> <!-- Ikke lenger app-container med grid her -->
-
-        <!-- Spillområdet FØRST -->
+    <main>
+        <!-- Spillområdet -->
         <section class="game-area">
             <div class="tower" id="tower-0">
                 <div class="peg"></div>
@@ -31,10 +30,9 @@
             </div>
         </section>
 
-        <!-- Container for seksjonene UNDER spillet -->
-        <div class="info-container">
-
-            <section class="controls">
+        <!-- Container for innholdsblokker under spillet -->
+        <div class="content-blocks">
+            <section class="controls block">
                 <h2>Innstillinger & Info</h2>
                 <div class="control-group">
                     <label for="disk-count">Antall skiver:</label>
@@ -59,8 +57,9 @@
                  </div>
             </section>
 
-            <section class="learning-zone">
+            <section class="learning-zone block">
                 <h2>Oppdag Formelen! 🧠</h2>
+                <!-- Innholdet i learning-zone som før -->
                 <p>Hanois tårn er mer enn et spill; det er et matematisk puslespill! La oss undersøke hvor mange trekk som *minimum* kreves.</p>
                 <ol>
                     <li>Prøv å løse tårnet med <strong>3 skiver</strong>. Hva er det minste antallet trekk du brukte? <br><em>(Hint: Svaret vises over som "Minimum trekk" når du velger 3 skiver). Noter det ned!</em></li>
@@ -99,7 +98,6 @@
                     </li>
                     <li><strong>Hint:</strong> Det finnes en generell (eksplisitt) formel som direkte beregner M(n) basert på `n`, uten å måtte regne ut alle de forrige trinnene. Den involverer tallet 2 opphøyd i `n`.</li>
                 </ol>
-
                 <div class="formula-checker">
                     <h3>Hvilken formel er riktig?</h3>
                     <p>Basert på mønsteret over, hvilken av disse generelle formlene tror du gjelder for minimum antall trekk M(n) med n skiver?</p>
@@ -109,12 +107,13 @@
                         <!-- Alternativer legges til av JavaScript -->
                     </select>
                     <button id="check-formula-button">Sjekk Formel</button>
-                    <p id="formula-result"></p> <!-- For tilbakemelding -->
+                    <p id="formula-result"></p>
                 </div>
             </section>
 
-            <section class="improvements">
+            <section class="improvements block">
                  <h2>Forbedringsforslag 🚀</h2>
+                 <!-- Innholdet i improvements som før -->
                  <ul>
                      <li>Visuell animasjon når en skive flyttes.</li>
                      <li>Lyd-effekter for flytting og seier.</li>
@@ -128,8 +127,7 @@
                      <li>Forbedret tilgjengelighet (WCAG) - f.eks. tastaturnavigasjon.</li>
                  </ul>
             </section>
-
-        </div> <!-- Slutt på info-container -->
+        </div> <!-- Slutt på content-blocks -->
 
     </main>
 
