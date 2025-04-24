@@ -3,137 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanois Tårn - Interaktiv Læring</title>
+    <title>Hanois Tårn - Interaktivt Puslespill</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Hanois Tårn</h1>
+        </header>
 
-    <header>
-        <h1>Hanois Tårn</h1>
-        <p>Flytt tårnet fra start-pinnen (venstre) til mål-pinnen (høyre).</p>
-    </header>
-
-    <main>
-        <!-- Spillområdet -->
-        <section class="game-area">
-            <div class="tower" id="tower-0">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-            <div class="tower" id="tower-1">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-            <div class="tower" id="tower-2">
-                <div class="peg"></div>
-                <div class="disks"></div>
-            </div>
-        </section>
-
-        <!-- Container for innholdsblokker under spillet -->
-        <div class="content-blocks">
-            <section class="controls block">
-                <h2>Innstillinger & Info</h2>
-                <div class="control-group">
-                    <label for="disk-count">Antall skiver:</label>
-                    <select id="disk-count">
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
+        <main>
+            <!-- Spillområdet -->
+            <div id="game-area" class="game-area">
+                <div class="tower-container" id="tower-0">
+                    <div class="disks"></div>
+                    <div class="peg"></div>
+                    <div class="base"></div>
                 </div>
-                <div class="control-group">
-                    <p>Antall trekk: <span id="move-count">0</span></p>
-                    <p>Minimum trekk: <span id="min-moves">?</span></p>
+                <div class="tower-container" id="tower-1">
+                    <div class="disks"></div>
+                    <div class="peg"></div>
+                    <div class="base"></div>
                 </div>
-                 <button id="reset-button">Start på nytt</button>
-                 <div id="win-message" class="win-message" style="display: none;">
-                     🎉 Gratulerer! Du klarte det! 🎉
-                 </div>
-            </section>
+                <div class="tower-container" id="tower-2">
+                    <div class="disks"></div>
+                    <div class="peg"></div>
+                    <div class="base"></div>
+                </div>
+            </div>
 
-            <section class="learning-zone block">
-                <h2>Oppdag Formelen! 🧠</h2>
-                <!-- Innholdet i learning-zone som før -->
-                <p>Hanois tårn er mer enn et spill; det er et matematisk puslespill! La oss undersøke hvor mange trekk som *minimum* kreves.</p>
-                <ol>
-                    <li>Prøv å løse tårnet med <strong>3 skiver</strong>. Hva er det minste antallet trekk du brukte? <br><em>(Hint: Svaret vises over som "Minimum trekk" når du velger 3 skiver). Noter det ned!</em></li>
-                    <li>Still inn på <strong>4 skiver</strong>. Hva er minimum antall trekk nå? Noter det også.</li>
-                    <li>Ser du et mønster? La oss tenke:
-                        <ul>
-                            <li>For å flytte <strong>1</strong> skive, trenger du M(1) = <strong>1</strong> trekk.</li>
-                            <li>For å flytte <strong>2</strong> skiver (fra A til C):
-                                <ol type="a">
-                                    <li>Flytt skive 1 (A til B): 1 trekk (som M(1)).</li>
-                                    <li>Flytt skive 2 (A til C): 1 trekk.</li>
-                                    <li>Flytt skive 1 (B til C): 1 trekk (som M(1)).</li>
-                                    <li>Totalt: M(2) = M(1) + 1 + M(1) = 2 * M(1) + 1 = 2 * 1 + 1 = <strong>3</strong> trekk.</li>
-                                </ol>
-                            </li>
-                            <li>For å flytte <strong>3</strong> skiver (fra A til C):
-                                 <ol type="a">
-                                    <li>Flytt de <strong>2</strong> øverste skivene fra A til B (Dette er det samme problemet som å flytte 2 skiver! Altså M(2) trekk).</li>
-                                    <li>Flytt den nederste skiven (3) fra A til C (1 trekk).</li>
-                                    <li>Flytt de <strong>2</strong> skivene fra B til C (Igjen M(2) trekk).</li>
-                                    <li>Totalt: M(3) = M(2) + 1 + M(2) = 2 * M(2) + 1 = 2 * 3 + 1 = <strong>7</strong> trekk.</li>
-                                </ol>
-                            </li>
-                        </ul>
+            <!-- Kontrollpanel og Info -->
+            <div class="controls-info-wrapper">
+                <div class="panel settings-panel">
+                    <h2>Innstillinger</h2>
+                    <div class="control-group">
+                        <label for="num-disks">Antall Skiver:</label>
+                        <select id="num-disks">
+                            <!-- Options genereres av JavaScript -->
+                        </select>
+                    </div>
+                    <div class="control-group">
+                         <button id="reset-button">Nullstill Spillet</button>
+                    </div>
+                </div>
+
+                <div class="panel stats-panel">
+                    <h2>Spillstatus</h2>
+                    <p>Antall Trekk: <span id="move-count">0</span></p>
+                    <p>Minimum Trekk: <span id="min-moves">0</span></p>
+                    <div id="win-message" class="win-message" style="display: none;">
+                        🎉 Gratulerer! Du løste puslespillet! 🎉
+                    </div>
+                </div>
+            </div>
+
+            <!-- Læringsseksjon: Formelutledning -->
+            <div class="panel learning-section">
+                <h2>Oppdag Formelen!</h2>
+                <p>La M(n) være minimum antall trekk for å flytte n skiver.</p>
+                <ul>
+                    <li>For <strong>n = 1</strong> skive: Du trenger bare ett trekk. Så, <strong>M(1) = 1</strong>.</li>
+                    <li>For <strong>n = 2</strong> skiver:
+                        <ol>
+                            <li>Flytt den minste skiven til hjelpepinnen (1 trekk).</li>
+                            <li>Flytt den største skiven til målpinnen (1 trekk).</li>
+                            <li>Flytt den minste skiven oppå den største (1 trekk).</li>
+                        </ol>
+                        Totalt 3 trekk. Så, <strong>M(2) = 3</strong>.
                     </li>
-                    <li>La M(n) være minimum antall trekk for <em>n</em> skiver. Kan du se den rekursive sammenhengen? <br> M(n) = 2 * M(n-1) + 1</li>
-                    <li>Bruk mønsteret du fant:
-                        <ul>
-                            <li>M(1) = 1</li>
-                            <li>M(2) = 3</li>
-                            <li>M(3) = 7</li>
-                            <li>M(4) = 2 * M(3) + 1 = 2 * 7 + 1 = <strong>15</strong></li>
-                            <li>M(5) = 2 * M(4) + 1 = 2 * 15 + 1 = <strong>31</strong></li>
-                        </ul>
-                        Ser disse tallene (1, 3, 7, 15, 31...) kjente ut? Tenk på potenser av 2 (2, 4, 8, 16, 32...). De er alltid én mindre!
+                     <li>For <strong>n = 3</strong> skiver:
+                        <ol>
+                            <li>Flytt de øverste 2 skivene til hjelpepinnen (dette krever M(2) = 3 trekk).</li>
+                            <li>Flytt den største skiven til målpinnen (1 trekk).</li>
+                            <li>Flytt de 2 skivene fra hjelpepinnen til målpinnen (dette krever M(2) = 3 trekk).</li>
+                        </ol>
+                       Totalt 3 + 1 + 3 = 7 trekk. Så, <strong>M(3) = 7</strong>.
                     </li>
-                    <li><strong>Hint:</strong> Det finnes en generell (eksplisitt) formel som direkte beregner M(n) basert på `n`, uten å måtte regne ut alle de forrige trinnene. Den involverer tallet 2 opphøyd i `n`.</li>
-                </ol>
-                <div class="formula-checker">
-                    <h3>Hvilken formel er riktig?</h3>
-                    <p>Basert på mønsteret over, hvilken av disse generelle formlene tror du gjelder for minimum antall trekk M(n) med n skiver?</p>
-                    <label for="formula-select">Velg en formel:</label>
+                </ul>
+                 <p>Ser du et mønster? For å flytte n skiver:</p>
+                 <ol>
+                     <li>Flytt (n-1) skiver til hjelpepinnen (krever M(n-1) trekk).</li>
+                     <li>Flytt den største skiven (n) til målpinnen (1 trekk).</li>
+                     <li>Flytt (n-1) skiver fra hjelpepinnen til målpinnen (krever M(n-1) trekk).</li>
+                 </ol>
+                 <p>Dette gir den rekursive formelen: <strong>M(n) = M(n-1) + 1 + M(n-1) = 2 * M(n-1) + 1</strong>.</p>
+                 <p>Basert på M(1)=1, M(2)=3, M(3)=7... Hva er den lukkede formelen for M(n)?</p>
+
+                <div class="control-group formula-checker">
+                    <label for="formula-select">Velg riktig formel for M(n):</label>
                     <select id="formula-select">
-                        <option value="">-- Velg en formel --</option>
-                        <!-- Alternativer legges til av JavaScript -->
+                        <option value="n^2 - 1">n² - 1</option>
+                        <option value="2n + 1">2n + 1</option>
+                        <option value="n + (n-1) + ... + 1">n + (n-1) + ... + 1</option>
+                        <option value="3^(n-1)">3^(n-1)</option>
+                        <option value="2^n - 1">2ⁿ - 1</option> <!-- Riktig svar -->
+                        <option value="2^(n-1) + 1">2^(n-1) + 1</option>
+                        <option value="n!">n!</option>
+                        <option value="n * (n+1) / 2">n * (n+1) / 2</option>
                     </select>
                     <button id="check-formula-button">Sjekk Formel</button>
-                    <p id="formula-result"></p>
+                    <p id="formula-feedback"></p>
                 </div>
-            </section>
+            </div>
 
-            <section class="improvements block">
-                 <h2>Forbedringsforslag 🚀</h2>
-                 <!-- Innholdet i improvements som før -->
-                 <ul>
-                     <li>Visuell animasjon når en skive flyttes.</li>
-                     <li>Lyd-effekter for flytting og seier.</li>
-                     <li>"Angre trekk"-knapp.</li>
-                     <li>Mulighet for å se den optimale løsningen bli spilt av.</li>
-                     <li>Tidtaker for å konkurrere mot seg selv.</li>
-                     <li>Flere visuelle temaer (f.eks. tre, metall, neon).</li>
-                     <li>Tilpasning av farger på skivene.</li>
-                     <li>Bedre tilbakemelding ved ulovlige trekk (f.eks. riste på skiven).</li>
-                     <li>Lagring av beste tid/minste antall trekk (bruker `localStorage`).</li>
-                     <li>Forbedret tilgjengelighet (WCAG) - f.eks. tastaturnavigasjon.</li>
-                 </ul>
-            </section>
-        </div> <!-- Slutt på content-blocks -->
+            <!-- Seksjon for forbedringer -->
+            <div class="panel improvements-section">
+                <h2>Fremtidige Forbedringer</h2>
+                <ul>
+                    <li>Smidigere animasjoner for skiveflytting.</li>
+                    <li>Lydeffekter for skiveflytting og seier.</li>
+                    <li>En "Angre"-knapp for å reversere siste trekk.</li>
+                    <li>Mulighet for å velge visuelle temaer (farger, skiveformer).</li>
+                    <li>En automatisk løsningsfunksjon som viser optimale trekk.</li>
+                    <li>Lagring av beste score (færrest trekk) for hvert antall skiver.</li>
+                    <li>Mer avansert tilgjengelighetsstøtte (f.eks. tastaturnavigasjon for spillet).</li>
+                </ul>
+            </div>
+        </main>
 
-    </main>
-
-    <footer>
-        <p>Laget med HTML, CSS & JavaScript.</p>
-    </footer>
+        <footer>
+            <p>Laget med HTML, CSS & JavaScript</p>
+        </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
