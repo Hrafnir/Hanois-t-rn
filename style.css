@@ -15,7 +15,13 @@
     --selected-outline: #f39c12; /* Oransje for valgt skive */
     --border-color: #dee2e6; /* Lys grå for borders */
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --tower-hover-bg: rgba(0, 0, 0, 0.03); /* Svært lys grå for tårn hover */
     --disk-colors: #e74c3c, #f39c12, #f1c40f, #2ecc71, #3498db, #9b59b6, #34495e, #1abc9c, #d35400, #bdc3c7; /* 10 distinkte farger */
+
+    /* NYTT: Faste høyder for spillkomponenter */
+    --peg-base-height: 20px;
+    --peg-disks-area-height: 300px; /* Høyde for pinne og disk-stabling (plass til 10+) */
+    --tower-total-min-height: calc(var(--peg-disks-area-height) + var(--peg-base-height));
 }
 
 * {
@@ -29,13 +35,15 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    padding-top: 20px;
+    /* padding-top: 20px; Fjernet, container setter egen margin */
 }
 
 .container {
-    max-width: 900px; /* Justert for bedre layout */
-    margin: 0 auto;
-    padding: 20px;
+    /* ENDRET: Større bredde og venstrejustert (med margin rundt) */
+    max-width: 1200px; /* Betydelig bredere */
+    /* margin: 0 auto; Fjernet auto for å unngå sentrering */
+    margin: 20px; /* Legger til 20px marg på alle sider, skyver den til venstre */
+    padding: 25px; /* Litt mer padding */
     background-color: var(--panel-background);
     border-radius: 12px;
     box-shadow: 0 6px 20px var(--shadow-color);
@@ -64,7 +72,8 @@ main {
     display: flex;
     justify-content: space-around;
     align-items: flex-end; /* Viktig for tårnene */
-    min-height: 350px; /* Høyde som passer 10 skiver */
+    /* ENDRET: Bruker min-height satt via variabel */
+    min-height: var(--tower-total-min-height);
     background-color: #e9ecef; /* Litt mørkere bakgrunn for kontrast */
     padding: 20px 10px 0; /* Padding top/bottom/sides */
     border-radius: 8px;
@@ -75,22 +84,32 @@ main {
 .tower-container {
     flex: 1; /* Tar lik plass */
     max-width: 30%; /* Begrenser bredden */
-    height: 100%;
-    display: flex;
+    /* ENDRET: Setter min-høyde basert på pinne/base */
+    min-height: var(--tower-total-min-height);
+    display: flex; /* Brukes fortsatt for intern layout om nødvendig */
     flex-direction: column; /* Stabler peg/base og disks */
     align-items: center;
-    position: relative; /* For diskplassering */
-    cursor: pointer; /* Indikerer klikkbarhet */
-    padding-bottom: 20px; /* Plass til basen */
+    position: relative; /* For absolutt posisjonerte barn (peg, base, disks) */
+    cursor: pointer; /* Indikerer klikkbarhet for hele tårnet */
+    padding-bottom: var(--peg-base-height); /* Plass til basen */
+    border-radius: 5px; /* For hover-effekt */
+    transition: background-color 0.2s ease; /* For hover-effekt */
+}
+
+/* NYTT: Hover-effekt for hele tårnet */
+.tower-container:hover {
+    background-color: var(--tower-hover-bg);
 }
 
 .peg {
     width: 12px; /* Litt tykkere pinne */
-    height: calc(100% - 20px); /* Høyde minus base */
+    /* ENDRET: Fast høyde */
+    height: var(--peg-disks-area-height);
     background-color: var(--peg-color);
     border-radius: 6px 6px 0 0;
     position: absolute;
-    bottom: 20px; /* Over basen */
+    /* ENDRET: Bunnen er nå høyden på basen */
+    bottom: var(--peg-base-height);
     left: 50%;
     transform: translateX(-50%);
     z-index: 1; /* Bak diskene */
@@ -99,7 +118,8 @@ main {
 
 .base {
     width: 90%; /* Bredere base */
-    height: 20px;
+    /* ENDRET: Bruker variabel for høyde */
+    height: var(--peg-base-height);
     background-color: var(--base-color);
     border-radius: 5px;
     position: absolute;
@@ -112,13 +132,18 @@ main {
 
 .disks {
     width: 100%;
-    height: calc(100% - 20px); /* Plass til diskene over basen */
+    /* ENDRET: Fast høyde, matcher pinnen */
+    height: var(--peg-disks-area-height);
     display: flex;
     flex-direction: column-reverse; /* Skiver stables fra bunn */
     align-items: center;
-    position: relative; /* Viktig for z-index og animasjon */
+    /* ENDRET: Absolutt posisjonert over pinnen/basen */
+    position: absolute;
+    bottom: var(--peg-base-height); /* Starter over basen */
+    left: 0; /* Dekker hele bredden av container */
     z-index: 2; /* Foran pinnen */
-    padding-bottom: 5px; /* Litt luft nederst */
+    /* padding-bottom: 5px; Fjernet, ikke nødvendig med absolutt pos. */
+    pointer-events: none; /* Viktig: Lar klikk gå gjennom til tower-container */
 }
 
 /* Skiver */
@@ -128,13 +153,14 @@ main {
     height: 22px; /* Fast høyde for skivene */
     border-radius: 6px;
     margin-bottom: 4px; /* Mellomrom mellom skiver */
-    cursor: pointer;
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, outline 0.1s linear;
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     border: 1px solid rgba(0,0,0,0.1); /* Subtil kant */
+    pointer-events: auto; /* GJENOPPRETTET: Skivene selv skal fange peker-hendelser (for visuelle effekter) */
+    cursor: pointer; /* Behold cursor på diskene også */
 }
 
-/* Farger for opptil 10 skiver */
+/* Farger for opptil 10 skiver (uendret) */
 .disk[data-size="1"] { background: linear-gradient(145deg, #ff5e57, #e74c3c); }
 .disk[data-size="2"] { background: linear-gradient(145deg, #ffab40, #f39c12); }
 .disk[data-size="3"] { background: linear-gradient(145deg, #ffd761, #f1c40f); }
@@ -154,7 +180,7 @@ main {
     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
-/* Riste-animasjon for ugyldig trekk */
+/* Riste-animasjon for ugyldig trekk (uendret) */
 .invalid-move-shake {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
@@ -166,7 +192,7 @@ main {
   40%, 60% { transform: translateX(3px); }
 }
 
-/* Kontrollpaneler og Info */
+/* Kontrollpaneler og Info (uendret) */
 .controls-info-wrapper {
     display: grid; /* Bruker Grid for bedre layout */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsivt grid */
@@ -268,7 +294,7 @@ button:active {
 }
 
 
-/* Formel Sjekker */
+/* Formel Sjekker (uendret) */
 .formula-checker {
     margin-top: 20px;
     padding-top: 15px;
@@ -292,7 +318,7 @@ button:active {
 }
 
 
-/* Footer */
+/* Footer (uendret) */
 footer {
     text-align: center;
     margin-top: 30px;
@@ -304,17 +330,33 @@ footer {
 
 
 /* Responsivitet */
+@media (max-width: 992px) { /* Justert breakpoint for bredere layout */
+     .container {
+        max-width: 95%; /* Mer flytende på mellomstore skjermer */
+        margin: 15px;
+        padding: 20px;
+    }
+}
+
 @media (max-width: 768px) {
-    .container {
+     /* ENDRET: Justerer faste høyder for mindre skjermer */
+    :root {
+        --peg-disks-area-height: 250px;
+        --peg-base-height: 18px;
+    }
+     .container {
+        margin: 10px;
         padding: 15px;
     }
-    .game-area {
-        min-height: 300px; /* Lavere høyde på mindre skjermer */
+     .game-area {
+        padding: 15px 8px 0;
     }
     .disk {
         height: 18px; /* Litt tynnere skiver */
         margin-bottom: 3px;
     }
+    .peg { width: 10px; }
+
     .controls-info-wrapper {
          grid-template-columns: 1fr; /* Stabler panelene vertikalt */
     }
@@ -324,26 +366,31 @@ footer {
 }
 
 @media (max-width: 480px) {
+    /* ENDRET: Ytterligere justering av faste høyder */
+    :root {
+        --peg-disks-area-height: 220px;
+        --peg-base-height: 15px;
+    }
     body {
-        padding-top: 10px;
+         /* padding-top: 10px; Fjernet */
     }
     .container {
+        margin: 5px;
         padding: 10px;
         border-radius: 8px;
     }
      .game-area {
-        min-height: 250px;
-        padding: 15px 5px 0;
+        padding: 10px 5px 0;
     }
+    .peg { width: 8px; } /* Enda tynnere */
+
     .disk {
-        height: 16px;
+        height: 15px; /* Tynnere skiver for å passe høyden */
         margin-bottom: 2px;
         border-radius: 4px;
          /* Juster bredde-skalering om nødvendig for små skjermer */
         width: calc(35% + (var(--disk-size) * 5%));
     }
-    .peg { width: 10px; }
-    .base { height: 15px; }
 
     .control-group {
         flex-direction: column;
