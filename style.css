@@ -37,12 +37,12 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    /* Legg til litt padding øverst på body for å sikre at container-margin virker */
-    padding-top: 1px;
+    padding-top: 1px; /* Sikrer at topp-margin på container virker */
 }
 
 .container {
-    max-width: 1200px; /* Bred container */
+    /* ENDRET: Redusert max-width for en mer "passe" bredde */
+    max-width: 1000px;
     /* Midtstilt horisontalt med topp/bunn margin */
     margin: 20px auto;
     padding: 25px;
@@ -143,7 +143,8 @@ main {
 /* Skiver */
 .disk {
     --disk-size: 1;
-    width: calc(30% + (var(--disk-size) * 6%));
+    /* Justert breddeberegning litt for den nye container-størrelsen */
+    width: calc(35% + (var(--disk-size) * 5.5%));
     height: 22px;
     border-radius: 6px;
     margin-bottom: 4px;
@@ -154,7 +155,7 @@ main {
     cursor: pointer;
 }
 
-/* Farger for opptil 10 skiver */
+/* Farger for opptil 10 skiver (uendret) */
 .disk[data-size="1"] { background: linear-gradient(145deg, #ff5e57, #e74c3c); }
 .disk[data-size="2"] { background: linear-gradient(145deg, #ffab40, #f39c12); }
 .disk[data-size="3"] { background: linear-gradient(145deg, #ffd761, #f1c40f); }
@@ -166,7 +167,7 @@ main {
 .disk[data-size="9"] { background: linear-gradient(145deg, #ff8a65, #d35400); }
 .disk[data-size="10"]{ background: linear-gradient(145deg, #cfd8dc, #bdc3c7); }
 
-/* Visuell Feedback */
+/* Visuell Feedback (uendret) */
 .disk.selected {
     outline: 3px solid var(--selected-outline);
     outline-offset: 2px;
@@ -185,7 +186,7 @@ main {
   40%, 60% { transform: translateX(3px); }
 }
 
-/* Kontrollpaneler og Info */
+/* Kontrollpaneler og Info (uendret struktur) */
 .controls-info-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -287,7 +288,7 @@ button:active {
 }
 
 
-/* Formel Sjekker */
+/* Formel Sjekker (uendret) */
 .formula-checker {
     margin-top: 20px;
     padding-top: 15px;
@@ -311,7 +312,7 @@ button:active {
 }
 
 
-/* Footer */
+/* Footer (uendret) */
 footer {
     text-align: center;
     margin-top: 30px;
@@ -323,24 +324,27 @@ footer {
 
 
 /* Responsivitet */
-@media (max-width: 1250px) { /* Juster breakpoint litt pga 1200px + margin */
+/* Fjernet den første breakpointen (@media (max-width: 1250px)), da 1000px er mer begrenset */
+
+@media (max-width: 1024px) { /* Litt justering for når den skal bli mer flytende */
      .container {
-        max-width: 95%; /* Mer flytende når skjermen nærmer seg max-width */
-        margin: 15px auto; /* Juster margin for mindre skjermer om nødvendig */
+        max-width: 95%;
+        margin: 15px auto;
     }
 }
 
 
 @media (max-width: 768px) {
     :root {
-        /* Justerer faste høyder for mindre skjermer */
         --peg-disks-area-height: 250px;
         --peg-base-height: 18px;
         --tower-padding-top: 10px;
     }
      .container {
-        /* margin: 10px auto; Kan justeres ved behov */
         padding: 15px;
+        /* Sikrer at 95% bredde ikke blir rart */
+        max-width: calc(100% - 20px); /* Litt mindre enn full bredde */
+        margin: 10px auto;
     }
      .game-area {
         padding: 8px 8px 0;
@@ -348,6 +352,8 @@ footer {
     .disk {
         height: 18px;
         margin-bottom: 3px;
+        /* Juster bredde for tablet */
+         width: calc(40% + (var(--disk-size) * 5%));
     }
     .peg { width: 10px; }
 
@@ -361,17 +367,15 @@ footer {
 
 @media (max-width: 480px) {
     :root {
-        /* Ytterligere justering av faste høyder */
         --peg-disks-area-height: 220px;
         --peg-base-height: 15px;
         --tower-padding-top: 8px;
     }
     .container {
-        /* margin: 5px auto; Kan justeres ved behov */
         padding: 10px;
         border-radius: 8px;
-        /* På veldig små skjermer, kan det være bedre å ikke ha auto margin */
-        /* margin-left: 5px; margin-right: 5px; */
+        max-width: calc(100% - 10px); /* Nesten full bredde */
+        margin: 5px auto;
     }
      .game-area {
         padding: 5px 5px 0;
@@ -382,7 +386,8 @@ footer {
         height: 15px;
         margin-bottom: 2px;
         border-radius: 4px;
-        width: calc(35% + (var(--disk-size) * 5%));
+        /* Juster bredde for mobil */
+        width: calc(45% + (var(--disk-size) * 4.5%));
     }
 
     .control-group {
